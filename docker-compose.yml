@@ -1,8 +1,25 @@
 version: '2'
 
 services:
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=lisa
+      - RABBITMQ_DEFAULT_PASS=123456789
+    ports:
+      - "5672:5672"
+      - "15672:15672"
   mongo-db:
     image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - /tmp/data:/data/db
   crawler:
     image: crawler
     build: .
+    volumes:
+      - /tmp/files:/tmp/files
+    depends_on:
+      - rabbit

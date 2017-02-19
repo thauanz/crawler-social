@@ -3,10 +3,11 @@ FROM python:latest
 MAINTAINER 'Thauan <thauanz@gmail.com>'
 
 RUN apt-get update && \
-    pip install tapioca-wrapper tapioca-twitter
+    pip install tapioca-wrapper tapioca-twitter && \
+    pip install -U Celery
 
-RUN adduser --disabled-password bart
-USER bart
-WORKDIR /home/bart
+WORKDIR /app/lib
 
-COPY . /home/bart/app
+COPY . /app
+
+CMD sleep 5 && /usr/local/bin/celery -A main.app worker -B --loglevel=debug
