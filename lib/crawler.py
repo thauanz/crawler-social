@@ -1,4 +1,5 @@
 import json
+import csv
 from tapioca_twitter import Twitter
 
 def generator_files():
@@ -19,13 +20,11 @@ def generator_files():
 
     for type_channel, values in channels.items():
         for channel in values:
-            tweets = api.search_tweets().get(params={'q': 'from:{channel}', 'count': 2, 'result_type': 'recent'})
-
+            tweets = api.search_tweets().get(params={'q': 'from:{channel}', 'count': 20, 'result_type': 'recent'})
             data = tweets().data
-
-            for item in data['statuses']:
-                print(type_channel)
-                print(channel)
-                print(item['id'])
-                print(item['text'])
-                print('---------')
+            with open("/tmp/files/tweets_{channel}.csv".format(channel=channel), 'w') as csvfile:
+                fieldnames = ['id', 'text', 'user_name', 'user_id']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+                for item in data['statuses']:
+                    writer.writerow({'id': item['id'], 'text': item['text'], 'user_name': item['user']['name'], 'user_id': item['user']['id']})
