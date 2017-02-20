@@ -1,0 +1,11 @@
+FROM mongo
+
+MAINTAINER 'Thauan <thauanz@gmail.com>'
+
+COPY lib/mongo_import.sh /app/
+
+WORKDIR /app
+
+RUN chmod 777 mongo_import.sh
+
+CMD ./mongo_import.sh

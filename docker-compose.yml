@@ -15,11 +15,24 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - /tmp/data:/data/db
+      - database:/data/db
+  import-files:
+    image: mongo-import
+    build:
+      context: .
+      dockerfile: Dockerfile.import
+    volumes:
+      - files:/tmp/files
   crawler:
     image: crawler
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - /tmp/files:/tmp/files
+      - files:/tmp/files
     depends_on:
       - rabbit
+
+volumes:
+  files:
+  database:
