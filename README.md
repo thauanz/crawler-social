@@ -14,3 +14,8 @@ For run project local
 docker-compose build
 docker-compose up
 ```
+
+Running tests
+```
+./test.sh
+```
