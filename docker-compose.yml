@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   rabbit:
@@ -21,6 +21,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.import
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == node2
     volumes:
       - files:/tmp/files
   crawler:
@@ -28,6 +32,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    deploy:
+      mode: global
     volumes:
       - files:/tmp/files
     depends_on:
