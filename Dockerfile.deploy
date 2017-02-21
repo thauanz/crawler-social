@@ -1,0 +1,12 @@
+FROM python:2
+
+MAINTAINER 'Thauan <thauanz@gmail.com>'
+
+RUN apt-get update && \
+    pip install fabric
+
+WORKDIR /app
+
+COPY . /app
+
+CMD /usr/local/bin/fab deploy
